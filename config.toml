@@ -2,49 +2,36 @@
 # 修改本文件后需手动运行 Actions -> build Internote -> Run workflow 全局重建一次
 
 [site]
-title = "InterNote"
+title = "My Blog"
 sub_title = "My notes on everything"
-avatar_url = "https://github.githubassets.com/favicons/favicon.svg"
-# display_title = ""        # 默认与 title 相同
-# favicon_url = ""          # 默认与 avatar_url 相同
-# og_image = ""             # 默认与 avatar_url 相同
+# avatar_url = ""           # 站点头像（header 显示）；留空则自动使用 owner 的 GitHub 头像
+# favicon = ""              # 站点图标；留空 = 自动下载 owner 头像；填 URL 用自定义图；"none" 关闭
 # home_url = ""             # 留空则自动推导（GitHub Pages 地址）
-version = "last"             # 博客仓库 workflow 检出的 InterNote 版本（tag 或 last）
-language = "CN"              # CN | EN | RU
-utc = 8                      # 时区偏移（小时）
+language = "CN"             # CN | EN
+utc = 8                     # 时区偏移（小时）
 
-[theme]
-mode = "manual"              # manual: 支持明暗切换 | fix: 固定
-day = "light"
-night = "dark"
-# year_colors = ["#bc4c00", "#0969da", "#1f883d", "#A333D0"]
+# footer 社交图标（可选段；缺省 footer 自带 RSS + GitHub 两个内置图标，
+# 用相同 id 的条目可覆盖内置图标的目标地址）
+# [[social]]
+# id = "bilibili"           # Simple Icons slug（https://simpleicons.org）
+# title = "Bilibili"        # 悬停/无障碍文案，缺省用 id
+# action = "link"           # link（跳转，默认）| copy（复制 username）| qrcode（弹二维码浮层）
+# url = "https://space.bilibili.com/XXXX"
 
 [layout]
-one_page_list_num = 15       # 每页文章数
-single_page = []             # 单页标签（如 ["about"]，对应 label 生成独立页面）
-start_site = ""              # 建站日期（如 "2026-01-01"，显示运行天数）
-filing_num = ""              # ICP 备案号（留空不显示）
-bottom_text = ""             # 文章页底部附加文字
-show_post_source = true      # 是否显示指向 Issue 的源码链接
-# head / style / script / index_script / index_style / all_head = ""  # 注入的 HTML 片段
-
-[nav]
-exlink = {}                  # 附加导航图标：{ "图标名": "链接" }，图标名需存在于 icon_list
-icon_list = {}               # 自定义 SVG path：{ "图标名": "d=..." }
+posts_per_page = 10
+# start_date = ""           # 建站日期（如 "2026-01-01"，首页显示运行天数）
+# icp = ""                  # ICP 备案号
+# footer_text = ""          # 文章页底部附加文字
 
 [comments]
-enabled = true               # 是否启用评论
-label_color = "#006b75"      # 评论数徽章颜色
+enabled = true
 
 [giscus]
-repo = ""                    # 如 "your-name/your-blog"（评论存储的仓库，需开启 Discussions）
-repo_id = ""                 # giscus.app 提供
-category = ""                # 如 "Announcements"
-category_id = ""             # giscus.app 提供
+repo = ""                   # 如 "your-name/your-blog"（评论存储的仓库，需开启 Discussions）
+repo_id = ""                # giscus.app 提供
+category = ""               # 如 "Announcements"
+category_id = ""            # giscus.app 提供
 
-[features]
-toc = false                  # 文章页目录（tocbot）
-visit_counter = "off"        # off | vercount | busuanzi
-
-[feed]
-split = "sentence"           # RSS 摘要截断符："sentence" 或自定义字符
+# 本地搜索无需配置：构建时生成 dist/search-index.json，
+# 浏览器端按 title / 标签 / 日期匹配，无第三方服务。

@@ -10,22 +10,36 @@
 #
 # 触发方式：
 #   - Issue opened / edited   -> 增量重建该篇文章
-#   - schedule（每天）         -> 全局重建
+#   - Issue closed            -> 下线该篇（清页面、列表、feed、search-index）
 #   - workflow_dispatch        -> 手动全局重建（修改 config.toml 后执行一次）
 name: build Internote
+
+concurrency:
+  # 构建必须串行：每个 run 都会 clone 全库、重新生成 dist/ 再 push，
+  # 并发 run 会互相 push 冲突导致产物丢失（连续创建/关闭 issue 时必现）。
+  # cancel-in-progress 必须为 false——取消会丢掉 closed 事件的下线动作。
+  group: internote-build
+  cancel-in-progress: false
 
 on:
   workflow_dispatch:
   issues:
-    types: [opened, edited]
-  schedule:
-    - cron: "0 16 * * *"
+    # `closed` is what actually unpublishes a post: run_one sees a non-open
+    # state and drops the entry from the pages, the lists, the feed, the state
+    # file and the search index. Without a cron there is no later sweep.
+    types: [opened, edited, closed]
+  issue_comment:
+    # Series sub posts are born from comments: the issues events above do
+    # NOT fire when a comment is added, so without this trigger a new sub
+    # post page never builds. `deleted` withdraws the sub page when the
+    # comment is removed. The owner guard on the job still applies.
+    types: [created, edited, deleted]
 
 jobs:
   build:
     name: Generate blog
     runs-on: ubuntu-latest
-    if: ${{ github.event.repository.owner.id == github.event.sender.id || github.event_name == 'schedule' }}
+    if: ${{ github.event.repository.owner.id == github.event.sender.id }}
     permissions:
       contents: write
       pages: write
@@ -44,15 +58,10 @@ jobs:
 
       - name: Clone InterNote source
         run: |
-          INTERNOTE_VERSION=$(python3 -c "import tomllib; print(tomllib.load(open('config.toml','rb'))['site']['version'])")
           git clone https://github.com/interset-wq/InterNote.git /opt/Internote
           cd /opt/Internote/
-          if [ "$INTERNOTE_VERSION" == "last" ]; then
-            lastTag=$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null || git rev-parse HEAD)
-            git checkout $lastTag
-          else
-            git checkout $INTERNOTE_VERSION
-          fi
+          # always track HEAD of main (no tags are maintained)
+          git checkout $(git rev-parse HEAD)
 
       - name: Generate new html
         run: |
