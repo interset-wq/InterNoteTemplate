@@ -7,7 +7,7 @@
 ## 快速开始
 
 1. **创建仓库** — 点击本仓库的 **Use this template**，建议命名 `XXX.github.io`（`XXX` 为你的 GitHub 用户名）。
-2. **配置站点** — 编辑 `config.toml`：站点标题、头像、语言、giscus 评论等。键说明见 [config.sample.toml](https://github.com/interset-wq/InterNote/blob/main/config.sample.toml)。
+2. **配置站点** — 编辑 `config.toml`：站点标题、头像、giscus 评论等。键说明见 [config.sample.toml](https://github.com/interset-wq/InterNote/blob/main/config.sample.toml)。
 3. **开启 Pages** — `Settings → Pages → Build and deployment → Source` 选择 `GitHub Actions`。
 4. **首次构建** — `Actions → build Internote → Run workflow`，完成首次全局生成。
 5. **发布第一篇文章** — 新建 Issue 并添加至少一个 Label，保存后自动构建，稍后即可通过 Pages 地址访问。

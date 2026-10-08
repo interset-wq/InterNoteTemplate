@@ -7,8 +7,6 @@ sub_title = "My notes on everything"
 # avatar_url = ""           # 站点头像（header 显示）；留空则自动使用 owner 的 GitHub 头像
 # favicon = ""              # 站点图标；留空 = 自动下载 owner 头像；填 URL 用自定义图；"none" 关闭
 # home_url = ""             # 留空则自动推导（GitHub Pages 地址）
-language = "CN"             # CN | EN
-utc = 8                     # 时区偏移（小时）
 
 # footer 社交图标（可选段；缺省 footer 自带 RSS + GitHub 两个内置图标，
 # 用相同 id 的条目可覆盖内置图标的目标地址）
